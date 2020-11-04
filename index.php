@@ -7,6 +7,18 @@
 <body>
 
 <?php
+echo
+'
+            <form method="post" action="index.php">
+                <p>Введите URL:<input name="URL"></p>
+                <p>Введите Description:<input name="Description"></p>
+                <p>Введите Cost:<input name="Cost"></p>
+                <p>Введите Date:<input name="Date"></p>
+                <p>Введите Adress:<input name="Adress"></p>
+                <p>Введите isTop:<input name="isTop" max="1" min="0"></p>
+                <input type="submit">
+            </form>
+        ';
 if
 (isset
     ($_POST['URL']) &&
@@ -37,21 +49,6 @@ if
                     <td style="background: lightgoldenrodyellow">' . $_POST['isTop'] . '</td>
                 </tr>
             </table>
-        ';
-}
-else
-{
-    echo
-    '
-            <form method="post" action="index.php">
-                <p>Введите URL:<input name="URL"></p>
-                <p>Введите Description:<input name="Description"></p>
-                <p>Введите Cost:<input name="Cost"></p>
-                <p>Введите Date:<input name="Date"></p>
-                <p>Введите Adress:<input name="Adress"></p>
-                <p>Введите isTop:<input name="isTop" max="1" min="0"></p>
-                <input type="submit">
-            </form>
         ';
 }
 ?>
@@ -204,7 +201,8 @@ else
 
     function loadNext($indpg,$asocs)
     {
-        if($indpg*5>=count($asocs)+5)
+        $numberpage = 5;
+        if($indpg*$numberpage>=count($asocs)+$numberpage)
         {
             die("<div id='error'>Ошибка</div>");
         }
@@ -214,21 +212,21 @@ else
             if($tmpstrt>=0)
             {
                 $tmpfin=$indpg;
-                if ($tmpfin * 5 > count($asocs))
+                if ($tmpfin * $numberpage > count($asocs))
                 {
                     $tmpfin = count($asocs);
                 }
                 else
                 {
-                    $tmpfin = $tmpfin * 5;
+                    $tmpfin = $tmpfin * $numberpage;
                 }
-                for ($k=$tmpstrt*5;$k<$tmpfin;$k++)
+                for ($k=$tmpstrt*$numberpage;$k<$tmpfin;$k++)
                 {
                     echo generate_dom($asocs[$k]);
                 }
 
-                $tmpcp=intval(count($asocs)/5);
-                if(count($asocs)%5>0)
+                $tmpcp=intval(count($asocs)/$numberpage);
+                if(count($asocs)%$numberpage>0)
                 {
                     $tmpcp++;
                 }
